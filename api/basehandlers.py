@@ -85,6 +85,17 @@ class APIHandler(flask.views.MethodView):
     handler_data = self.do_get(*args, **kwargs)
     return self.defensive_jsonify(handler_data), headers
 
+  def post(self, *args, **kwargs):
+    """Handle an incoming HTTP POST request."""
+    json_body = self.request.get_json(force=True, silent=True) or {}
+    logging.info('POST data is:')
+    for k, v in json_body.items():
+      logging.info('%r: %s', k, repr(v)[:settings.MAX_LOG_LINE])
+
+    headers = self.get_headers()
+    handler_data = self.do_post(*args, **kwargs)
+    return self.defensive_jsonify(handler_data), headers
+  
   def _get_valid_methods(self):
     """For 405 responses, list methods the concrete handler implements."""
     valid_methods = ['GET']

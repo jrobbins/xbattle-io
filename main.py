@@ -3,13 +3,13 @@ import flask
 
 import settings
 from api import basehandlers
-# from api import parks_api
+from api import players_api
 # from api import park_api
 
 
 api_routes = [
-    # ('/parks', parks_api.ParksAPI),
-    # ('/parks/<string:park_uid>', park_api.ParkAPI)
+    ('/players', players_api.PlayersAPI),
+    ('/players/<string:player_uid>', players_api.PlayersAPI)
     ]
 
 app = basehandlers.FlaskApplication(
