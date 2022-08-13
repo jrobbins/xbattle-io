@@ -28,21 +28,26 @@ This file gives implementation notes for developers.
   * Redraws the screen as fast a possible using animation frames
   * Requests data on visible cells once per second
   * Client runs the same simulation to generate predictions
+  * TODO: consider asking server for recent orders
 
 * Player input processing
   * Client posts to /api/v0/orders/${player_id} immediately
   * Server processes orders as soon as they are received
 
+* Arena view serialization
+  * Server sends a 20x16 subgrid, flattened into a 1D list
+  * TODO: for now it sends full 40x40
+  * JSON is {player_id: [troop_counts_per_cell]}
+  * Each client sees other players' troop counts, but not orders?
+
+# Server simulation
+
 * Arena representation
-  * A 40x40 2D array of cells, each with 6 neighbors
+  * A 40x40 1D array of cells, each with 6 neighbors
+  * Each player has their own layer of the map
   * Each cell has {player_id: troop_count, ...}
 
-* Arena view serialization
-  * Server sends a 20x16 subgrids, flattened into a 1D list
-  * JSON is {player_id: [troop_counts_per_cell]}
-  * Each client sees other players' troop counts, but not orders.
-
-* Server simulation
+* Tasks
   * The server runs one complete simualtion timestep per second
   * Work for a timestep is divided into 2 * len(players) tasks
   * Simulation task processing is piggy-backed onto view requests

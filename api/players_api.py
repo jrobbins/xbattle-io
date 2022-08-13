@@ -4,18 +4,18 @@ from sim import players
 
 class PlayersAPI(basehandlers.APIHandler):
 
-  def do_get(self, player_uid=None):
-    if player_uid:
-      p = players.get_player(player_uid)
+  def do_get(self, player_id=None):
+    if player_id:
+      p = players.get_player(player_id)
       return serialize_player(p)
     else:
       pl = players.get_all()
       return [serialize_player(p) for p in pl]
 
-  def do_post(self, player_uid=None):
-    if player_uid:
+  def do_post(self, player_id=None):
+    if player_id:
       return {
-        'error': 'client should not create player UIDs',
+        'error': 'client should not create player IDs',
         }
 
     nick = self.get_param('nick', '').strip()
@@ -35,7 +35,7 @@ def serialize_player(p, include_token=False):
     return None
 
   result = {
-    'uid': p.uid,
+    'id': p.id,
     'nick': p.nick,
     'score': p.score,
     'skin': p.skin,
