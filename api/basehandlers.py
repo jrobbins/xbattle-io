@@ -81,12 +81,14 @@ class APIHandler(flask.views.MethodView):
 
   def get(self, *args, **kwargs):
     """Handle an incoming HTTP GET request."""
+    logging.info('GET %r', flask.request.full_path)
     headers = self.get_headers()
     handler_data = self.do_get(*args, **kwargs)
     return self.defensive_jsonify(handler_data), headers
 
   def post(self, *args, **kwargs):
     """Handle an incoming HTTP POST request."""
+    logging.info('POST %r', flask.request.full_path)
     json_body = self.request.get_json(force=True, silent=True) or {}
     logging.info('POST data is:')
     for k, v in json_body.items():

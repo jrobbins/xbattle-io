@@ -8,8 +8,6 @@ SKINS = [
   'pink', 'purple', 'gray']
 
 
-# If we have not heard from a player in 60 seconds, forget them.
-PLAYER_TIMEOUT = 60
 # This is the most that can be on this server.
 MAX_PLAYERS = 10
 
@@ -49,15 +47,5 @@ def authenticate(player_id, token):
   return player.token == token
 
 
-def remove_expired():
-  min_last_seen = time.time() - PLAYER_TIMEOUT
-  for uid in list(roster):
-    if roster[uid].last_seen < min_last_seen:
-      # TODO: and delete their armies
-      logging.info('Goodbye ' + roster[uid].nick)
-      del roster[uid]
-
-
 def get_all():
-  remove_expired()
   return roster.values()

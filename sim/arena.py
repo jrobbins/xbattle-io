@@ -71,7 +71,9 @@ troop_layers = {}  # {player_id: TroopLayer}
 def spawn_player(player):
   new_layer = make_troop_layer(player.player_id)
   troop_layers[player.player_id] = new_layer
-  # TODO: initial armies
+  spawn_x, spawn_y = 0, 0
+  idx = cell_index(spawn_x, spawn_y)
+  new_layer.cells[idx].troops = 10
 
 def get_sector(viewport_x, viewport_y):
   return troop_layers
@@ -80,11 +82,6 @@ def get_sector(viewport_x, viewport_y):
 def get_sector_list():
   return 'TODO'
 
-def get_troop_layer(player_id):
-  for troop_layer in troop_layers:
-    if troop_layer.player_id == player_id:
-      return troop_layer
-  return None
 
 def in_bounds(x, y):
   return (x >= 0 and x < ARENA_WIDTH and
@@ -95,12 +92,12 @@ def cell_index(x, y):
   return y * ARENA_WIDTH + x
 
 
-def get_neighboring_cell(cells, x, y, direction):
+def get_neighboring_idx(x, y, direction):
   delta = DELTAS[x % 2][direction]
   nx = x + delta.dx
   ny = y + delta.dy
   if in_bounds(nx, ny):
-    return cells[cell_index(nx, ny)]
+    return cell_index(nx, ny)
   return None
 
 
