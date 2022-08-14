@@ -1,5 +1,4 @@
 import logging
-import collections
 import secrets
 import time
 
@@ -15,36 +14,39 @@ PLAYER_TIMEOUT = 60
 MAX_PLAYERS = 10
 
 
-Player = collections.namedtuple(
-  'Player',
-  'uid nick score skin token last_seen')
-
 
 roster = {}
-next_uid = 1000
+next_player_id = 1000
 next_skin = 0
 
 
-def create_player(nick, now=None):
-  global next_uid
-  global next_skin
-  uid = next_uid
-  next_uid += 1
-  skin = SKINS[next_skin]
-  next_skin = (next_skin + 1) % len(SKINS)
-  now = now or time.time()
-  token = secrets.token_urlsafe(16)
-  p = Player(uid, nick, 0, skin, token, now)
-  return p
+class Player:
+  
+  def __init__(self, nick, now=None):
+    global next_player_id
+    global next_skin
+    
+    self.player_id = next_player_id
+    next_player_id += 1
+    self.nick = nick
+    self.skin = SKINS[next_skin]
+    next_skin = (next_skin + 1) % len(SKINS)
+    self.token = secrets.token_urlsafe(16)
+    self.score = 0
+    self.last_seen = now or time.time()
+  
 
 
 def enroll_player(p):
-  roster[p.uid] = p
-  # TODO: and add initial armies to world
+  roster[p.player_id] = p
 
 
-def get_player(uid):
-  return roster.get(uid)
+def get_player(player_id):
+  return roster.get(player_id)
+
+def authenticate(player_id, token):
+  player = get_player(player_id)
+  return player.token == token
 
 
 def remove_expired():

@@ -1,5 +1,4 @@
 import logging
-import collections
 import time
 
 from sim import players
@@ -36,12 +35,15 @@ def maybe_generate_tasks(now=None):
   global last_time
   now = now or time.time()
   if now > last_time + STEP_DURATION_SECS:
-    for p in players.roster:
-      task_queue.append(calc_flow, (p.id,))
-    for p in players.roster:
-      task_queue.append(apply_flow, (p.id,))
-    task_queue.append(battle, tuple())
-  last_time = now
+    while len(task_queue) > 0:
+      process_next_task()
+    for player_id in players.roster:
+      task_queue.append((calc_flow, (player_id,)))
+    for player_id in players.roster:
+      task_queue.append((apply_flow, (player_id,)))
+    task_queue.append((battle, tuple()))
+    players.remove_expired()
+    last_time = now
 
 
 def do_tasks():

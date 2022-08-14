@@ -12,6 +12,7 @@ api_routes = [
     ('/players', players_api.PlayersAPI),
     ('/players/<string:player_id>', players_api.PlayersAPI),
     ('/orders/<int:player_id>', orders_api.OrdersAPI),
+    ('/map', arena_api.MapAPI),
     ('/arena', arena_api.ArenaAPI),
     ('/arena/<int:viewport_x>/<int:viewport_y>',
      arena_api.ArenaAPI),
