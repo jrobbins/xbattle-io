@@ -8,6 +8,7 @@ ARENA_HEIGHT = 40
 GRASS = 'g'
 HILL = 'H'
 WATER = 'W'
+BOUNDARY = 'B'
 
 HALT = 'S'
 NORTH_EAST = 'E'
@@ -40,8 +41,15 @@ DELTAS = [
 
 
 def make_map():
-  return [GRASS
-          for i in range(ARENA_WIDTH * ARENA_HEIGHT)]
+  result = []
+  for y in range(ARENA_HEIGHT):
+    for x in range(ARENA_WIDTH):
+      terrain = GRASS
+      if (x == 0 or x == ARENA_WIDTH - 1 or
+          y == 0 or y == ARENA_HEIGHT - 1):
+        terrain = BOUNDARY
+      result.append(terrain)
+  return result
 
 arena_map = make_map()
 
