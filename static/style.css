@@ -20,4 +20,5 @@ h1 {
 
 #nick {
     width: 35vw;
+    max-width: 16em;
 }
