@@ -59,8 +59,8 @@ function cellCenter(idx) {
   const cellX = idx % arenaWidth;
   const cellY = (idx - cellX) / arenaHeight;
   return {
-    cX: (cellX + (cellX % 2) * 0.5) * CELL_SIZE,
-    cY: cellY * CELL_SIZE * 0.86,
+    cX: ((cellX + 1) + (cellY % 2) * 0.5) * CELL_SIZE,
+    cY: (cellY + 1) * CELL_SIZE * 0.86,
   }
 }
 
@@ -70,7 +70,8 @@ function simulateTo(timestamp) {
 
 function drawCell(idx) {
   const {cX, cY} = cellCenter(idx);
-  console.log(cX, cY);
+
+  // Draw terrain
   ctx.lineWidth = 1;
   ctx.fillStyle = TERRAIN_COLORS['g'];
   ctx.strokeStyle = BORDER_COLOR;
@@ -85,23 +86,36 @@ function drawCell(idx) {
   ctx.lineTo(cX - HALF_CELL, cY - HALF_WALL);
   ctx.fill();
   ctx.stroke();
+
+  // Draw troops
+
+  // Draw orders
+
 }
 
 let running = true;
-const maxSteps = 100;
+const maxSteps = 40;
 let step = 0;
+let lastTimestamp = 0;
+
+let interlace = 0;
+const interlaceSteps = 4;
 
 function animationLoop(timestamp) {
-  console.log(timestamp);
-  if (step > maxSteps) running = false;
+  console.log('FPS: ' + (1000 / (timestamp - lastTimestamp)));
+  lastTimestamp = timestamp;
+  if (step >= maxSteps) {running = false; return;}
   step++;
   if (running) {
     window.requestAnimationFrame(animationLoop);
   }
   simulateTo(timestamp);
   for (let idx = 0; idx < arenaWidth * arenaHeight; idx++) {
-    drawCell(idx);
+    if (idx % interlaceSteps == interlace) {
+      drawCell(idx);
+    }
   }
+  interlace = (interlace + 1) % interlaceSteps;
 }
 
 console.log('starting anuimation')
