@@ -11,25 +11,22 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="theme-color" content="#526E9C">
 
-  <script type="module" src="/static/dist/index.js"></script>
+  <script type="module" src="/static/game.js"></script>
+  <!-- was /static/dist/index.js -->
     
-  <link rel="stylesheet" href="/static/dist/themes/light.css"/>
   <link rel="stylesheet" href="/static/style.css">
   
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap" rel="stylesheet">  
-
 </head>
 
 <body>
-  <canvas width=800 height=600 style="top:0; left:0; width:100vw; height: 100vh; position: fixed">
-  </canvas>
+  <canvas width=800 height=600></canvas>
   
-  <dialog open style="top:40vh">
-    <h1 style="margin-top:0">XBattle.io</h1>
+  <dialog open>
+    <h1>XBattle.io</h1>
     <div>
-      Nick: <input id=nick size=40 style="width:35vw"> <button>Join</button>
+      Nick:
+      <input id=nick size=40>
+      <button id=join>Join</button>
     </div>
   </dialog>
 </body>

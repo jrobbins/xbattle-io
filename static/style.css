@@ -1,3 +1,23 @@
 body {
     background: #eef;
 }
+
+canvas {
+    top:0;
+    left:0;
+    width:100vw;
+    height: 100vh;
+    position: fixed;
+}
+
+dialog {
+    top: 40vh;
+}
+
+h1 {
+    margin-top: 0;
+}
+
+#nick {
+    width: 35vw;
+}

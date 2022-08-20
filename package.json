@@ -26,9 +26,6 @@
       "@web/test-runner": "^0.13.27",
       "rollup": "^2.73.0"
   },
-  "xxxdependencies": {
-    "@shoelace-style/shoelace": "^2.0.0-beta.73",
-     "lit": "^2",
-     "page": "^1.11.6"
+  "dependencies": {
   }
 }
