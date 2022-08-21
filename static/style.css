@@ -16,9 +16,26 @@ dialog {
 
 h1 {
     margin-top: 0;
+    text-align: center;
 }
 
 #nick {
     width: 35vw;
     max-width: 16em;
+}
+
+ul {
+    border-top: 1px solid #999;
+    padding-top: 1em;
+}
+
+form {
+    text-align: center;
+}
+
+kbd {
+    background: #eee;
+    padding: 1px;
+    border: 1px solid #999;
+    border-radius: 4px;
 }

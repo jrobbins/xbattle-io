@@ -11,6 +11,11 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="theme-color" content="#526E9C">
 
+  <script defer src="/static/constants.js"></script>
+  <script defer src="/static/cursor.js"></script>
+  <script defer src="/static/interpolate.js"></script>
+  <script defer src="/static/client.js"></script>
+  <script defer src="/static/lobby.js"></script>
   <script defer src="/static/game.js"></script>
   <!-- was type="module" /static/dist/index.js -->
     
@@ -22,12 +27,21 @@
   <canvas width=1600 height=1200></canvas>
   
   <dialog open>
-    <h1>XBattle.io</h1>
-    <div>
+    <h1>xbattle.io</h1>
+    <form action="">
       Nick:
       <input id=nick size=40>
-      <button id=join>Join</button>
-    </div>
+      <button type="submit" id=join>Join</button>
+    </form>
+
+    <ul>
+    <li>Choose a nickname for other players to see.
+    <li>Move your cursor around the map with arrow keys.
+    <li>Hold <kbd>shift</kbd> to set orders for your troops to follow.
+    <li>Capture territory to grow more troops.
+    <li>Establish supply lines and attack in force.
+    <li>Earn you way to the top of the leaderboard.
+    </ul>	
   </dialog>
 </body>
 </html>

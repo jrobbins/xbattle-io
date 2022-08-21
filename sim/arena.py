@@ -79,7 +79,7 @@ troop_layers = {}  # {player_id: TroopLayer}
 def spawn_player(player):
   new_layer = make_troop_layer(player.player_id)
   troop_layers[player.player_id] = new_layer
-  spawn_x, spawn_y = 0, 0
+  spawn_x, spawn_y = 1, 1
   idx = cell_index(spawn_x, spawn_y)
   new_layer.cells[idx].troops = 10
 
