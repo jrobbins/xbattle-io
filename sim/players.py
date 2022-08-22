@@ -31,7 +31,7 @@ class Player:
     next_skin = (next_skin + 1) % len(SKINS)
     self.token = secrets.token_urlsafe(16)
     self.score = 0
-    self.last_seen = now or time.time()
+    self.last_contact = now or time.time()
   
 
 
@@ -39,8 +39,18 @@ def enroll_player(p):
   roster[p.player_id] = p
 
 
+def unenroll_player(player_id):
+  del roster[player_id]
+
+
+def record_contact(player_id):
+  if player_id in roster:
+    roster[player_id].last_contact = int(time.time())
+
+
 def get_player(player_id):
   return roster.get(player_id)
+
 
 def authenticate(player_id, token):
   player = get_player(player_id)

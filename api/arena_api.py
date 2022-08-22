@@ -1,12 +1,14 @@
 import logging
 from api import basehandlers
 from sim import arena
+from sim import players
 from sim import tasks
 
 
 class ArenaAPI(basehandlers.APIHandler):
 
-  def do_get(self, viewport_x=None, viewport_y=None):
+  def do_get(self, player_id, viewport_x=None, viewport_y=None):
+    players.record_contact(player_id)
     tasks.do_tasks()
     if viewport_x:
       # Client is requesting info on cells that the user might see soon.

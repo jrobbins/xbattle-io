@@ -14,6 +14,7 @@ class OrdersAPI(basehandlers.APIHandler):
       flask.abort(404, 'Player not found')
     if not players.authenticate(player_id, token):
       flask.abort(403, 'Secret does not match')
+    players.record_contact(player_id)
 
     x = self.get_int_param('x')
     y = self.get_int_param('y')

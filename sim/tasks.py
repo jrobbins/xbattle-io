@@ -13,8 +13,8 @@ COLLATERAL = 5
 GROWTH = (FLAT_FLOW // 10) + 1
 
 
-# If we have not heard from a player in 60 seconds, forget them.
-PLAYER_TIMEOUT = 60 * 100
+# If we have not heard from a player in 20 seconds, forget them.
+PLAYER_TIMEOUT = 20
 
 
 def calc_single_flow(x, y, player_cells, remaining_space):
@@ -47,6 +47,7 @@ def apply_single_flow(x, y, player_cells, flows):
 
 
 def calc_and_apply_flow(player_id):
+  if player_id not in players.roster: return
   troop_layer = arena.troop_layers[player_id]
   player_cells = troop_layer.cells
   remaining_space = [
@@ -125,9 +126,9 @@ def do_tasks():
 
 
 def remove_expired():
-  min_last_seen = time.time() - PLAYER_TIMEOUT
+  min_last_contact = time.time() - PLAYER_TIMEOUT
   for player_id in list(players.roster):
-    if players.roster[player_id].last_seen < min_last_seen:
+    if players.roster[player_id].last_contact < min_last_contact:
       logging.info('Goodbye ' + players.roster[player_id].nick)
-      del players.roster[player_id]
-      del arena.player_layers[player_id]
+      players.unenroll_player(player_id)
+      arena.unspawn_player(player_id)

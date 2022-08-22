@@ -83,6 +83,10 @@ def spawn_player(player):
   idx = cell_index(spawn_x, spawn_y)
   new_layer.cells[idx].troops = 10
 
+def unspawn_player(player_id):
+  del troop_layers[player_id]
+
+
 def get_sector(viewport_x, viewport_y):
   return troop_layers
 

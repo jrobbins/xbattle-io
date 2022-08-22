@@ -77,7 +77,7 @@ class XBattleClient {
   }
 
   getArena(viewportX, viewportY) {
-    const url = `/arena/${viewportX}/${viewportY}`;
+    const url = `/arena/${this.playerId}/${viewportX}/${viewportY}`;
     return this.doGet(url).then((res) => res);
     // TODO: catch((error) => { display message }
   }
