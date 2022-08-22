@@ -38,8 +38,9 @@ def serialize_layer(layer):
 def serialize_subgrid(subgrid_layers):
   return {
     'bounds': (0, 0, arena.ARENA_WIDTH, arena.ARENA_HEIGHT),
-    'troop_layers': [
-      serialize_layer(lay) for lay in subgrid_layers.values()],
+    'troop_layers': {
+      lay.player_id: serialize_layer(lay)
+      for lay in subgrid_layers.values()},
     }
 
 

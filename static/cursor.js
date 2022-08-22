@@ -39,7 +39,7 @@ class Cursor {
 
     const delta = DELTAS[this.y % 2][char.toUpperCase()];
     if (delta === undefined) return;
-    let {dx, dy} = delta;
+    const {dx, dy} = delta;
     if (dx !== undefined) {
       const newX = this.x + dx;
       const newY = this.y + dy;

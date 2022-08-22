@@ -53,8 +53,49 @@ function drawCellXY(x, y) {
   ctx.stroke();
 
   // Draw troops
-
+  let totalTroops = 0;
+  for (let p of roster) {
+    const layer = playerLayers[p.player_id];
+    if (layer === undefined) continue;
+    totalTroops += layer.troops[idx][0];
+  }
+  if (totalTroops > 0) {
+    const troopRadius = Math.min(totalTroops, 100) / 100 * HALF_CELL;
+    let drawnTroops = 0;
+    for (let p of roster) {
+      const layer = playerLayers[p.player_id];
+      if (layer === undefined) continue;
+      let pTroops = layer.troops[idx][0];
+      ctx.fillStyle = p.skin;
+      ctx.beginPath();
+      ctx.moveTo(cX, cY);
+      ctx.arc(cX, cY, troopRadius,	      
+	      drawnTroops / totalTroops * 2 * Math.PI,
+	      pTroops / totalTroops * 2 * Math.PI);
+      ctx.fill();
+      drawnTroops += pTroops;
+    }
+  }
+  
   // Draw orders
+  for (let p of roster) {
+    const layer = playerLayers[p.player_id];
+    if (layer === undefined) continue;
+    const orders = layer.troops[idx][1];
+    if (orders == HALT) continue;
+    const delta = DELTAS[y % 2][orders];
+    if (delta === undefined) continue;
+    const {dx, dy} = delta;
+    const neighbor = cellCenter(x + dx, y + dy);
+    const nX = neighbor.cX, nY = neighbor.cY;
+    ctx.beginPath();
+    ctx.strokeStyle = '#000';
+    ctx.lineWidth = 3;
+    ctx.moveTo(cX, cY);
+    console.log((cX + nX) / 2, (cY + nY) / 2);
+    ctx.lineTo((cX + nX) / 2, (cY + nY) / 2);
+    ctx.stroke();
+  }
 
 }
 
@@ -72,25 +113,20 @@ function drawCellsAround(x, y) {
 }
 
 
-
 function init() {
   worldMap = [];
-  for (let y = 0; y < arenaHeight; y++) {
-    for (let x = 0; x < arenaWidth; x++) {
-      let terrain = GRASS;
-      if (x == 0 || x == arenaWidth - 1 ||
-	  y == 0 || y == arenaHeight - 1) {
-	terrain = BOUNDARY;
-      }
-      worldMap.push(terrain);
-    }
-  }
+  for (let y = 0; y < arenaHeight; y++)
+    for (let x = 0; x < arenaWidth; x++)
+      worldMap.push(GRASS);
+
+  xbClient.getMap().then((arenaMap) => {
+    worldMap = arenaMap;
+  });
 }
 
 
 const cursor = new Cursor();
 
-joinEl.addEventListener('click', join);
 document.addEventListener('keydown', cursor.handleKey.bind(cursor));
 
 init();
@@ -118,4 +154,16 @@ function animationLoop(timestamp) {
 }
 
 window.requestAnimationFrame(animationLoop);
+
+
+function gameLoop() {
+  if (!running) return;
+  xbClient.getArena(1, 1).then((res) => {
+    // TODO: integrate a subgrid rather than replacing
+    playerLayers = res.troop_layers;
+  });
+  window.setTimeout(gameLoop, 1000);
+}
+
+window.setTimeout(gameLoop, 1000);
 

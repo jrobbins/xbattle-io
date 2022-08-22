@@ -34,7 +34,7 @@ def serialize_player(p, include_token=False):
     return None
 
   result = {
-    'id': p.player_id,
+    'player_id': p.player_id,
     'nick': p.nick,
     'score': p.score,
     'skin': p.skin,

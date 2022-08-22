@@ -43,9 +43,7 @@ class XBattleClient {
   }
 
   doPost(resource, body) {
-    return this.ensureTokenIsValid().then(() => {
-      return this.doFetch(resource, 'POST', body);
-    });
+    return this.doFetch(resource, 'POST', body);
   }
   
   // //////////////////////////////////////////////////////////////
@@ -67,7 +65,14 @@ class XBattleClient {
   }
 
   getMap() {
-    return this.doGet(`/map`).then((res) => res);
+    return this.doGet(`/map`).then((res) => {
+      const arenaStr = res.arena_map;
+      const arenaMap = [];
+      for (let terrain of arenaStr) {
+	arenaMap.push(terrain);
+      }
+      return arenaMap;
+    });
     // TODO: catch((error) => { display message }
   }
 
