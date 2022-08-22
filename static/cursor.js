@@ -19,25 +19,26 @@ class Cursor {
   }
   
   handleKey(event) {
-    let char = event.key || event.keyCode;
-    if (char == '?') {
+    let chr = event.key || event.keyCode;
+    if (chr == '?') {
       console.log(this.x, this.y, worldMap[xyToIdx(this.x, this.y)]);
       return;
     }
-    if (char == 'w' || char == 'W' || char == 'ArrowUp' || char == UP_CODE) {
-      char = (this.y % 2) ? NORTH_WEST : NORTH_EAST;
+    if (chr == 'w' || chr == 'W' || chr == 'ArrowUp' || chr == UP_CODE) {
+      chr = (this.y % 2) ? NORTH_WEST : NORTH_EAST;
     }
-    if (char == 'x' || char == 'X' || char == 'ArrowDown' || char == DOWN_CODE) {
-      char = (this.y % 2) ? SOUTH_WEST : SOUTH_EAST;
+    if (chr == 'x' || chr == 'X' || chr == 'ArrowDown' || chr == DOWN_CODE) {
+      chr = (this.y % 2) ? SOUTH_WEST : SOUTH_EAST;
     }
-    if (char == 'ArrowLeft' || char == LEFT_CODE) {
-      char = WEST;
+    if (chr == 'ArrowLeft' || chr == LEFT_CODE) {
+      chr = WEST;
     }
-    if (char == 'ArrowRight' || char == RIGHT_CODE) {
-      char = EAST;
+    if (chr == 'ArrowRight' || chr == RIGHT_CODE) {
+      chr = EAST;
     }
 
-    const delta = DELTAS[this.y % 2][char.toUpperCase()];
+    chr = chr.toUpperCase();
+    const delta = DELTAS[this.y % 2][chr];
     if (delta === undefined) return;
     const {dx, dy} = delta;
     if (dx !== undefined) {
@@ -50,7 +51,12 @@ class Cursor {
 	return;
       }
       if (event.shiftKey) {
-	console.log('orders!');
+	const idx = xyToIdx(this.x, this.y);
+	const layer = playerLayers[xbClient.playerId];
+	if (layer) {
+	  layer.troops[idx][1] = chr;
+	}
+	xbClient.postOrders(this.x, this.y, chr);
       }
       drawCellsAround(this.x, this.y);
       drawCellsAround(newX, newY);

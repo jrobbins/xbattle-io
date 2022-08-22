@@ -53,7 +53,7 @@ class XBattleClient {
     return this.doPost('/players', {nick})
       .then((res) => {
 	this.token = res.token;
-	this.playerId = res.playerId;
+	this.playerId = res.player_id;
 	return res;
       });
     // TODO: catch((error) => { display message }
@@ -84,7 +84,7 @@ class XBattleClient {
 
   postOrders(x, y, orders) {
     const url = `/orders/${this.playerId}`;
-    body = {
+    const body = {
       token: this.token,
       x, y, orders,
     };

@@ -92,7 +92,6 @@ function drawCellXY(x, y) {
     ctx.strokeStyle = '#000';
     ctx.lineWidth = 3;
     ctx.moveTo(cX, cY);
-    console.log((cX + nX) / 2, (cY + nY) / 2);
     ctx.lineTo((cX + nX) / 2, (cY + nY) / 2);
     ctx.stroke();
   }
@@ -133,7 +132,7 @@ init();
 
 
 let running = true;
-const maxSteps = 400;
+const maxSteps = 4000;
 let step = 0;
 let lastTimestamp = 0;
 

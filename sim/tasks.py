@@ -10,7 +10,7 @@ task_queue = []  # A list of pairs (callback, args)
 FLAT_FLOW = 20
 MAX_TROOPS_PER_PLAYER_PER_CELL = 100
 COLLATERAL = 5
-GROWTH = (FLAT_FLOW // 5) + 1
+GROWTH = (FLAT_FLOW // 10) + 1
 
 
 # If we have not heard from a player in 60 seconds, forget them.

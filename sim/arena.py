@@ -101,7 +101,7 @@ def cell_index(x, y):
 
 
 def get_neighboring_idx(x, y, direction):
-  delta = DELTAS[x % 2][direction]
+  delta = DELTAS[y % 2][direction]
   nx = x + delta.dx
   ny = y + delta.dy
   if in_bounds(nx, ny):
