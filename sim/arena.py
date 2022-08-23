@@ -76,12 +76,60 @@ def make_troop_layer(player_id):
 troop_layers = {}  # {player_id: TroopLayer}
 
 
+SPAWN_POINTS = [
+  (int(ARENA_WIDTH / 2), 4),
+  (int(ARENA_WIDTH / 2), ARENA_HEIGHT - 4),
+  (4, int(ARENA_HEIGHT / 2)),
+  (ARENA_WIDTH - 4, int(ARENA_HEIGHT / 2)),
+]
+
+for inset in (2, 7, 12, 19):
+  SPAWN_POINTS.append((inset, inset))
+  SPAWN_POINTS.append((ARENA_WIDTH - inset, ARENA_HEIGHT - inset))
+  SPAWN_POINTS.append((ARENA_WIDTH - inset, inset))
+  SPAWN_POINTS.append((inset, ARENA_HEIGHT - inset))
+
+
+def idxToXY(idx):
+  x = idx % arenaWidth
+  y = (idx - x) / arenaHeight
+  return x, y
+
+
+def xyToIdx(x, y):
+  return y * ARENA_WIDTH + x
+
+
+def is_occupied(x, y):
+  idx = xyToIdx(x, y)
+  for layer in troop_layers.values():
+    if layer.cells[idx].troops > 0:
+      return True
+  return False
+
+
+def is_safe_spawn_point(x, y):
+  for dy in (-1, 0, 1):
+    for dx in (-1, 0, 1):
+      if is_occupied(x + dx, y + dy):
+        return False
+  return True
+
+  
+def find_spawn_point():
+  for x, y in SPAWN_POINTS:
+    if is_safe_spawn_point(x, y):
+      return x, y
+  # TODO: clear out a random spawn point
+  return 20, 20
+
 def spawn_player(player):
   new_layer = make_troop_layer(player.player_id)
   troop_layers[player.player_id] = new_layer
-  spawn_x, spawn_y = 1, 1
+  spawn_x, spawn_y = find_spawn_point()
   idx = cell_index(spawn_x, spawn_y)
   new_layer.cells[idx].troops = 10
+  return spawn_x, spawn_y
 
 def unspawn_player(player_id):
   del troop_layers[player_id]

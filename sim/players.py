@@ -4,8 +4,8 @@ import time
 
 
 SKINS = [
-  'red', 'blue', 'green', 'white', 'black', 'yellow', 'orange',
-  'pink', 'purple', 'gray']
+  'red', 'blue', 'green', 'black', 'yellow', 'orange',
+  'pink', 'purple', 'gray', 'magenta', 'cyan']
 
 
 # This is the most that can be on this server.
@@ -29,6 +29,7 @@ class Player:
     self.nick = nick
     self.skin = SKINS[next_skin]
     next_skin = (next_skin + 1) % len(SKINS)
+    self.spawn_x, self.spawn_y = None, None
     self.token = secrets.token_urlsafe(16)
     self.score = 0
     self.last_contact = now or time.time()

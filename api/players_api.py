@@ -25,7 +25,7 @@ class PlayersAPI(basehandlers.APIHandler):
     
     p = players.Player(nick)
     players.enroll_player(p)
-    arena.spawn_player(p)
+    p.spawn_x, p.spawn_y = arena.spawn_player(p)
     return serialize_player(p, include_token=True)
 
 
@@ -38,6 +38,8 @@ def serialize_player(p, include_token=False):
     'nick': p.nick,
     'score': p.score,
     'skin': p.skin,
+    'spawn_x': p.spawn_x,
+    'spawn_y': p.spawn_y,
     }
   if include_token:
     result['token'] = p.token

@@ -54,6 +54,8 @@ class XBattleClient {
       .then((res) => {
 	this.token = res.token;
 	this.playerId = res.player_id;
+	this.spawnX = res.spawn_x;
+	this.spawnY = res.spawn_y;
 	return res;
       });
     // TODO: catch((error) => { display message }

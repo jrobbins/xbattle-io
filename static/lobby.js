@@ -5,6 +5,8 @@ function join() {
   xbClient.addPlayer(nick).then((res) => {
     console.log(res);
     updateLeaderboard();
+    cursor.x = xbClient.spawnX;
+    cursor.y = xbClient.spawnY;
   });
 }
 

@@ -135,7 +135,7 @@ init();
 
 
 let running = true;
-const maxSteps = 4000;
+const maxSteps = 0;
 let step = 0;
 let lastTimestamp = 0;
 
@@ -143,7 +143,10 @@ let lastTimestamp = 0;
 function animationLoop(timestamp) {
   //console.log('FPS: ' + (1000 / (timestamp - lastTimestamp)));
   lastTimestamp = timestamp;
-  if (step >= maxSteps) {running = false; return;}
+  if (maxSteps && step >= maxSteps) {
+    running = false;
+    return;
+  }
   step++;
   if (running) {
     window.requestAnimationFrame(animationLoop);
