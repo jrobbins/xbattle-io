@@ -66,34 +66,37 @@ function drawCellXY(x, y) {
       const layer = playerLayers[p.player_id];
       if (layer === undefined) continue;
       let pTroops = layer.troops[idx][0];
-      ctx.fillStyle = p.skin;
-      ctx.beginPath();
-      ctx.moveTo(cX, cY);
-      ctx.arc(cX, cY, troopRadius,	      
-	      drawnTroops / totalTroops * 2 * Math.PI,
-	      pTroops / totalTroops * 2 * Math.PI);
-      ctx.fill();
-      drawnTroops += pTroops;
+      if (pTroops > 0) {
+        ctx.fillStyle = p.skin;
+        ctx.beginPath();
+        ctx.moveTo(cX, cY);
+        ctx.arc(cX, cY, troopRadius,	      
+	        drawnTroops / totalTroops * 2 * Math.PI,
+	        pTroops / totalTroops * 2 * Math.PI);
+        ctx.fill();
+        drawnTroops += pTroops;
+      }
     }
   }
   
   // Draw orders
-  for (let p of roster) {
-    const layer = playerLayers[p.player_id];
-    if (layer === undefined) continue;
+  const layer = playerLayers[xbClient.playerId];
+  if (layer) {
     const orders = layer.troops[idx][1];
-    if (orders == HALT) continue;
-    const delta = DELTAS[y % 2][orders];
-    if (delta === undefined) continue;
-    const {dx, dy} = delta;
-    const neighbor = cellCenter(x + dx, y + dy);
-    const nX = neighbor.cX, nY = neighbor.cY;
-    ctx.beginPath();
-    ctx.strokeStyle = '#000';
-    ctx.lineWidth = 3;
-    ctx.moveTo(cX, cY);
-    ctx.lineTo((cX + nX) / 2, (cY + nY) / 2);
-    ctx.stroke();
+    if (orders != HALT) {
+      const delta = DELTAS[y % 2][orders];
+      if (delta) {
+	const {dx, dy} = delta;
+	const neighbor = cellCenter(x + dx, y + dy);
+	const nX = neighbor.cX, nY = neighbor.cY;
+	ctx.beginPath();
+	ctx.strokeStyle = '#000';
+	ctx.lineWidth = 3;
+	ctx.moveTo(cX, cY);
+	ctx.lineTo((cX + nX) / 2, (cY + nY) / 2);
+	ctx.stroke();
+      }
+    }
   }
 
 }
