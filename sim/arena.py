@@ -1,5 +1,6 @@
 import logging
 import collections
+import random
 
 
 ARENA_WIDTH = 40
@@ -40,6 +41,16 @@ DELTAS = [
 ]
 
 
+def idxToXY(idx):
+  x = idx % arenaWidth
+  y = (idx - x) / arenaHeight
+  return x, y
+
+
+def xyToIdx(x, y):
+  return y * ARENA_WIDTH + x
+
+
 def make_map():
   result = []
   for y in range(ARENA_HEIGHT):
@@ -49,6 +60,10 @@ def make_map():
           y == 0 or y == ARENA_HEIGHT - 1):
         terrain = BOUNDARY
       result.append(terrain)
+  rx = random.randrange(4, 36)
+  ry = random.randrange(4, 36)
+  rIdx = xyToIdx(rx, ry)
+  result[rIdx] = HILL
   return result
 
 arena_map = make_map()
@@ -88,16 +103,6 @@ for inset in (2, 7, 12, 19):
   SPAWN_POINTS.append((ARENA_WIDTH - inset, ARENA_HEIGHT - inset))
   SPAWN_POINTS.append((ARENA_WIDTH - inset, inset))
   SPAWN_POINTS.append((inset, ARENA_HEIGHT - inset))
-
-
-def idxToXY(idx):
-  x = idx % arenaWidth
-  y = (idx - x) / arenaHeight
-  return x, y
-
-
-def xyToIdx(x, y):
-  return y * ARENA_WIDTH + x
 
 
 def is_occupied(x, y):

@@ -14,7 +14,7 @@ GROWTH = (FLAT_FLOW // 10) + 1
 
 
 # If we have not heard from a player in 20 seconds, forget them.
-PLAYER_TIMEOUT = 20
+PLAYER_TIMEOUT = 200
 
 
 def calc_single_flow(x, y, player_cells, remaining_space):
@@ -126,7 +126,7 @@ def do_tasks():
 
 
 def remove_expired():
-  min_last_contact = time.time() - PLAYER_TIMEOUT
+  min_last_contact = int(time.time()) - PLAYER_TIMEOUT
   for player_id in list(players.roster):
     if players.roster[player_id].last_contact < min_last_contact:
       logging.info('Goodbye ' + players.roster[player_id].nick)

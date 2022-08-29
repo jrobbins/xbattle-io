@@ -4,8 +4,8 @@ import time
 
 
 SKINS = [
-  'red', 'blue', 'green', 'black', 'yellow', 'orange',
-  'pink', 'purple', 'gray', 'magenta', 'cyan']
+  'red', 'blue', 'green', 'gold', 'orange', 'navy', 'brown',
+  'pink', 'purple', 'gray', 'magenta', 'teal']
 
 
 # This is the most that can be on this server.
@@ -46,6 +46,7 @@ def unenroll_player(player_id):
 
 def record_contact(player_id):
   if player_id in roster:
+    logging.info('Record_Contact %r %r', player_id, int(time.time()))
     roster[player_id].last_contact = int(time.time())
 
 

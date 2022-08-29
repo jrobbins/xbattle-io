@@ -138,7 +138,8 @@ let running = true;
 const maxSteps = 0;
 let step = 0;
 let lastTimestamp = 0;
-
+let interlace = 0;
+const interlaceSteps = 10;
 
 function animationLoop(timestamp) {
   //console.log('FPS: ' + (1000 / (timestamp - lastTimestamp)));
@@ -152,9 +153,11 @@ function animationLoop(timestamp) {
     window.requestAnimationFrame(animationLoop);
   }
   simulateTo(timestamp);
-  for (let idx = 0; idx < arenaWidth * arenaHeight; idx++) {
+  const numCells = arenaWidth * arenaHeight;
+  for (let idx = interlace * numCells / interlaceSteps; idx < (interlace + 1) * numCells / interlaceSteps; idx++) {
     drawCellIdx(idx);
   }
+  interlace = (interlace + 1) % interlaceSteps;
   cursor.render();
 }
 
