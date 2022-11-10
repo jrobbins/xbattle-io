@@ -78,6 +78,7 @@ def battle():
       if player_cell.troops == total_troops:
         arena.arena_owners[idx] = player_id
         continue
+      arena.arena_owners[idx] = 0
       others = total_troops - player_cell.troops
       lost = (player_cell.troops * others * others //
               total_troops // total_troops) + COLLATERAL
